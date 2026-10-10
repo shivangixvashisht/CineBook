@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CineBook - manage the movie catalogue: add, update and delete movies.">
+    <title>CineBook · Movie Manager</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AC%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="brand" href="#" aria-label="CineBook home">
+            <span class="brand-icon" aria-hidden="true">🎬</span>
+            <span class="brand-name">Cine<span class="accent">Book</span></span>
+        </a>
+        <nav class="tabs" role="tablist" aria-label="Movie operations">
+            <button class="tab active" role="tab" id="tab-add" aria-controls="panel-add" aria-selected="true">Add Movie</button>
+            <button class="tab" role="tab" id="tab-update" aria-controls="panel-update" aria-selected="false" tabindex="-1">Update Movie</button>
+            <button class="tab" role="tab" id="tab-delete" aria-controls="panel-delete" aria-selected="false" tabindex="-1">Delete Movie</button>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <section class="hero">
+        <h1>Movie Catalogue Manager</h1>
+        <p>Add new movies, update existing ones by ID, or remove them from the CineBook database.</p>
+    </section>
+
+    <div class="panels">
+        <!-- ADD MOVIE -->
+        <section class="card panel active" id="panel-add" role="tabpanel" aria-labelledby="tab-add">
+            <div class="card-head">
+                <span class="badge badge-add" aria-hidden="true">+</span>
+                <div>
+                    <h2>Add Movie</h2>
+                    <p class="muted">The movie ID is generated automatically.</p>
+                </div>
+            </div>
+            <form id="add-form" novalidate>
+                <div class="field">
+                    <label for="add-title">Title</label>
+                    <input id="add-title" name="title" type="text" maxlength="100" placeholder="e.g. Inception" autocomplete="off" required>
+                    <small class="error" data-error-for="title"></small>
+                </div>
+                <div class="field">
+                    <label for="add-genre">Genre</label>
+                    <input id="add-genre" name="genre" type="text" maxlength="50" list="genre-options" placeholder="e.g. Sci-Fi" autocomplete="off" required>
+                    <small class="error" data-error-for="genre"></small>
+                </div>
+                <div class="field">
+                    <label for="add-price">Ticket Price (₹)</label>
+                    <input id="add-price" name="ticketPrice" type="number" min="0.01" max="10000" step="0.01" placeholder="e.g. 250.00" inputmode="decimal" required>
+                    <small class="error" data-error-for="ticketPrice"></small>
+                </div>
+                <button type="submit" class="btn btn-add">Add Movie</button>
+                <div class="alert" role="status" aria-live="polite"></div>
+            </form>
+        </section>
+
+        <!-- UPDATE MOVIE -->
+        <section class="card panel" id="panel-update" role="tabpanel" aria-labelledby="tab-update" hidden>
+            <div class="card-head">
+                <span class="badge badge-update" aria-hidden="true">✎</span>
+                <div>
+                    <h2>Update Movie</h2>
+                    <p class="muted">Enter the movie ID and the new details.</p>
+                </div>
+            </div>
+            <form id="update-form" novalidate>
+                <div class="field">
+                    <label for="update-id">Movie ID</label>
+                    <input id="update-id" name="movieId" type="number" min="1" step="1" placeholder="e.g. 1" inputmode="numeric" required>
+                    <small class="error" data-error-for="movieId"></small>
+                </div>
+                <div class="field">
+                    <label for="update-title">New Title</label>
+                    <input id="update-title" name="title" type="text" maxlength="100" placeholder="e.g. Inception" autocomplete="off" required>
+                    <small class="error" data-error-for="title"></small>
+                </div>
+                <div class="field">
+                    <label for="update-genre">New Genre</label>
+                    <input id="update-genre" name="genre" type="text" maxlength="50" list="genre-options" placeholder="e.g. Sci-Fi" autocomplete="off" required>
+                    <small class="error" data-error-for="genre"></small>
+                </div>
+                <div class="field">
+                    <label for="update-price">New Ticket Price (₹)</label>
+                    <input id="update-price" name="ticketPrice" type="number" min="0.01" max="10000" step="0.01" placeholder="e.g. 300.00" inputmode="decimal" required>
+                    <small class="error" data-error-for="ticketPrice"></small>
+                </div>
+                <button type="submit" class="btn btn-update">Update Movie</button>
+                <div class="alert" role="status" aria-live="polite"></div>
+            </form>
+        </section>
+
+        <!-- DELETE MOVIE -->
+        <section class="card panel" id="panel-delete" role="tabpanel" aria-labelledby="tab-delete" hidden>
+            <div class="card-head">
+                <span class="badge badge-delete" aria-hidden="true">✕</span>
+                <div>
+                    <h2>Delete Movie</h2>
+                    <p class="muted">This permanently removes the movie.</p>
+                </div>
+            </div>
+            <form id="delete-form" novalidate>
+                <div class="field">
+                    <label for="delete-id">Movie ID</label>
+                    <input id="delete-id" name="movieId" type="number" min="1" step="1" placeholder="e.g. 1" inputmode="numeric" required>
+                    <small class="error" data-error-for="movieId"></small>
+                </div>
+                <label class="confirm">
+                    <input type="checkbox" name="confirm" id="delete-confirm">
+                    <span>I understand this action cannot be undone.</span>
+                </label>
+                <small class="error" data-error-for="confirm"></small>
+                <button type="submit" class="btn btn-delete">Delete Movie</button>
+                <div class="alert" role="status" aria-live="polite"></div>
+            </form>
+        </section>
+    </div>
+
+    <datalist id="genre-options">
+        <option value="Action">
+        <option value="Adventure">
+        <option value="Animation">
+        <option value="Comedy">
+        <option value="Crime">
+        <option value="Documentary">
+        <option value="Drama">
+        <option value="Fantasy">
+        <option value="Horror">
+        <option value="Musical">
+        <option value="Mystery">
+        <option value="Romance">
+        <option value="Sci-Fi">
+        <option value="Thriller">
+    </datalist>
+</main>
+
+<footer class="site-footer">
+    <div class="container">CineBook DBMS Mini Project · Spring Boot · JDBC · H2</div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>
